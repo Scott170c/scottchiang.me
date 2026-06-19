@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "scottchiang.me",
-  description: "A quick Vercel deployment smoke test.",
+  title: "Scott Chiang",
+  description: "Scott Chiang's Personal Website",
 };
 
 export default function RootLayout({
