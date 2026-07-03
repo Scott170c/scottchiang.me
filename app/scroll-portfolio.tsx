@@ -16,6 +16,7 @@ import {
   useTransform,
 } from "framer-motion";
 import { animate, stagger } from "animejs";
+import { Cormorant_Garamond } from "next/font/google";
 
 type PortfolioSection = {
   id: string;
@@ -36,13 +37,13 @@ type SidebarNavItemProps = {
 type ContentSectionProps = {
   section: PortfolioSection;
   index: number;
-  smoothSectionProgress: MotionValue<number>;
 };
 
 type SocialLink = {
   label: string;
   href: string;
-  Icon: (props: { size?: number }) => ReactNode;
+  iconSrc: string;
+  iconClassName?: string;
 };
 
 type MediaItem = {
@@ -54,6 +55,23 @@ type MediaItem = {
   imageAlt?: string;
   rotation?: string;
 };
+
+type ProjectItem = {
+  title: string;
+  description: string;
+  href: string;
+  tags: string[];
+  status: string;
+  accent: string;
+  imageSrc?: string;
+  imageAlt?: string;
+};
+
+const scottDisplayFont = Cormorant_Garamond({
+  subsets: ["latin"],
+  style: ["italic"],
+  weight: ["700"],
+});
 
 function GithubIcon({ size = 22 }: { size?: number }) {
   return (
@@ -225,51 +243,50 @@ function EmailIcon({ size = 22 }: { size?: number }) {
 const socialLinks: SocialLink[] = [
   {
     label: "GitHub",
-    href: "https://github.com/yourusername",
-    Icon: GithubIcon,
+    href: "https://github.com/scott170c",
+    iconSrc: "/social-icons/github.png",
+    iconClassName: "h-10 w-10",
   },
   {
     label: "LinkedIn",
-    href: "https://www.linkedin.com/in/yourusername",
-    Icon: LinkedinIcon,
+    href: "https://www.linkedin.com/in/chiangscott",
+    iconSrc: "/social-icons/linkedin.png",
+    iconClassName: "h-10 w-10",
   },
   {
     label: "Instagram",
-    href: "https://www.instagram.com/yourusername",
-    Icon: InstagramIcon,
-  },
-  {
-    label: "Resume",
-    href: "/resume.pdf",
-    Icon: ResumeIcon,
+    href: "https://www.instagram.com/BRUHisbackbois",
+    iconSrc: "/social-icons/instagram.png",
+    iconClassName: "h-12 w-12",
   },
   {
     label: "Email",
     href: "mailto:scottchiang7@gmail.com",
-    Icon: EmailIcon,
+    iconSrc: "/social-icons/email.png",
+    iconClassName: "h-14 w-14",
   },
 ];
 
-const repoHref = "https://github.com/yourusername/scottchiang.me";
+const repoHref = "https://github.com/scott170c/scottchiang.me";
 
 // Add photos to /public and reference them like "/robot-dog.jpg".
 const mediaItems: MediaItem[] = [
   {
-    title: "Build photo",
-    eyebrow: "Photo",
-    description: "A place for a personal photo, lab snapshot, or build image.",
-    href: "#",
-    imageSrc: "",
-    imageAlt: "Build photo placeholder",
+    title: "LAHacks 2026",
+    eyebrow: "Linkedin Post",
+    description: "LA Hacks 2026 hardware project post on LinkedIn.",
+    href: "https://www.linkedin.com/posts/chiangscott_lahacks-hackathons-hardware-share-7455792654304567296-wDjJ/",
+    imageSrc: "/lahacks-2026.png",
+    imageAlt: "LAHacks 2026 project photo",
     rotation: "-2.5deg",
   },
   {
-    title: "Feature",
+    title: "VIA Rail x Hack Club Hackathon",
     eyebrow: "Article",
-    description: "A place for a profile, article, interview, or written feature.",
-    href: "https://example.com/article",
-    imageSrc: "",
-    imageAlt: "Article placeholder",
+    description: "VIA Rail press release about Hack Club's Boreal Express journey.",
+    href: "https://media.viarail.ca/en/press-releases/2024/50-young-hack-club-coders-champion-sustainable-future-rails-canadian",
+    imageSrc: "/the-canadian.jpg",
+    imageAlt: "The Canadian train traveling through mountain scenery",
     rotation: "1.75deg",
   },
   {
@@ -283,14 +300,55 @@ const mediaItems: MediaItem[] = [
   },
 ];
 
-const sectionCopy: Record<string, { title: string; body: ReactNode }> = {
+const projectItems: ProjectItem[] = [
+  {
+    title: "Robot Dog Controls",
+    description:
+      "Locomotion tests, telemetry notes, and field controls for hardware that has to move cleanly in the real world.",
+    href: "#",
+    tags: ["Robotics", "Controls", "Hardware"],
+    status: "In progress",
+    accent: "#70756d",
+    imageSrc: "/lahacks-2026.png",
+    imageAlt: "Hardware project setup from LA Hacks 2026",
+  },
+  {
+    title: "Rail Sustainability Data",
+    description:
+      "A compact case-study space for analysis, visualizations, and transportation sustainability thinking.",
+    href: "#",
+    tags: ["Data Science", "Visualization", "Hackathon"],
+    status: "Case study",
+    accent: "#587274",
+    imageSrc: "/the-canadian.jpg",
+    imageAlt: "The Canadian train traveling through mountain scenery",
+  },
+  {
+    title: "Personal Site System",
+    description:
+      "This site as a living interface experiment with motion, responsive layout, and personal storytelling.",
+    href: repoHref,
+    tags: ["Next.js", "Tailwind", "Animation"],
+    status: "Live",
+    accent: "#26231f",
+  },
+];
+
+const sectionCopy: Record<string, { title: ReactNode; body: ReactNode }> = {
   home: {
-    title: "Hi, I'm Scott",
+    title: (
+      <p>
+        Hi, I&apos;m{" "}
+        <span className={`${scottDisplayFont.className} inline-block text-[1.3em] font-black [-webkit-text-stroke:0.75px_currentColor]`}>
+          Scott
+        </span>
+      </p>
+    ),
     body: <h4 style={{ fontSize: "1.3rem", fontWeight: 500 }}>I graduated high school early, now I'm a <b>Robotics Engineering Intern @ RobotX ∪ Data Science Transfer Student @ IVC</b> </h4>
   },
   projects: {
     title: "Selected projects",
-    body: "Placeholder space for builds, prototypes, technical demos, and project writeups.",
+    body: "A small collection of builds, prototypes, and interface experiments.",
   },
   work: {
     title: "Robot dog showcase",
@@ -395,29 +453,34 @@ function SiteFooter() {
             SCOTT CHIANG
           </a>
           <p className="mt-4 max-w-sm leading-6">
-            Robotics engineering, data science, and interfaces for physical systems.
+            Student, Maker, and Robotics Enthusiast
           </p>
         </div>
 
-        <div className="flex flex-col items-center gap-5">
+        <div className="flex flex-col items-center gap-1">
             <p className="text-[0.68rem] font-bold uppercase tracking-[0.24em] text-[#8a6a44]">
-              Links
+              Connect
             </p>
-            <div className="flex flex-wrap justify-center gap-3">
-              {socialLinks.map(({ label, href, Icon }) => {
+            <div className="flex flex-wrap items-center justify-center gap-2">
+              {socialLinks.map(({ label, href, iconSrc, iconClassName }) => {
                 const isEmail = href.startsWith("mailto:");
 
                 return (
                   <a
                     key={label}
                     aria-label={label}
-                    className="group grid h-12 w-12 place-items-center rounded-full border border-[#ded8cc] bg-white/90 text-[#4e463d] shadow-[0_12px_30px_rgba(29,26,22,0.05)] backdrop-blur transition duration-300 hover:-translate-y-0.5 hover:border-[#1d1a16] hover:bg-white hover:text-[#1d1a16] hover:shadow-[0_16px_34px_rgba(29,26,22,0.09)] focus:outline-none focus:ring-2 focus:ring-[#1d1a16]/20"
+                    className="group grid h-14 w-14 place-items-center transition duration-300 hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-[#1d1a16]/20"
                     href={href}
                     rel={isEmail ? undefined : "noreferrer"}
                     target={isEmail ? undefined : "_blank"}
                     title={label}
                   >
-                    <Icon size={20} />
+                    <img
+                      alt=""
+                      aria-hidden="true"
+                      className={`${iconClassName ?? "h-10 w-10"} object-contain transition-transform duration-300 group-hover:scale-110`}
+                      src={iconSrc}
+                    />
                   </a>
                 );
               })}
@@ -426,14 +489,23 @@ function SiteFooter() {
 
         <div className="text-center md:text-right">
           <p>&copy; 2026 Scott Chiang.</p>
-          <a
-            className="mt-1 inline-block font-semibold text-[#1d1a16] underline decoration-[#cfc6b8] decoration-1 underline-offset-4 transition hover:decoration-[#1d1a16]"
-            href={repoHref}
-            rel="noreferrer"
-            target="_blank"
-          >
-            View repository
-          </a>
+          <div className="mt-1 flex flex-col items-center gap-1 md:items-end">
+            <a
+              className="inline-block font-semibold text-[#1d1a16] underline decoration-[#cfc6b8] decoration-1 underline-offset-4 transition hover:decoration-[#1d1a16]"
+              href={repoHref}
+              rel="noreferrer"
+              target="_blank"
+            >
+              View repository
+            </a>
+            <a
+              className="inline-block font-semibold text-[#1d1a16] underline decoration-[#cfc6b8] decoration-1 underline-offset-4 transition hover:decoration-[#1d1a16]"
+              href="/resume.pdf"
+              target="_blank"
+            >
+              Resume
+            </a>
+          </div>
         </div>
       </div>
 
@@ -487,18 +559,18 @@ function MediaCard({ item }: { item: MediaItem }) {
 
   return (
     <a
-      className="group relative block aspect-[4/3] w-full max-w-72 rotate-[var(--card-rotation)] overflow-hidden rounded-lg border border-[#ded8cc] bg-white text-left shadow-[0_14px_34px_rgba(29,26,22,0.06)] transition duration-300 ease-out hover:-translate-y-1 hover:rotate-0 hover:border-[#1d1a16] hover:shadow-[0_20px_42px_rgba(29,26,22,0.1)] focus:outline-none focus:ring-2 focus:ring-[#1d1a16]/20"
+      className="group relative block aspect-[4/3] w-full max-w-72 rotate-[var(--card-rotation)] overflow-hidden rounded-lg text-left shadow-[0_14px_34px_rgba(29,26,22,0.06)] transition duration-300 ease-out hover:-translate-y-2 hover:rotate-0 hover:shadow-[0_22px_46px_rgba(29,26,22,0.12)] focus:outline-none"
       href={item.href}
       rel={item.href.startsWith("#") ? undefined : "noreferrer"}
       style={cardStyle}
       target={item.href.startsWith("#") ? undefined : "_blank"}
       title={item.description}
     >
-      <div className="relative h-full overflow-hidden bg-[#fbfaf7]">
+      <div className="relative h-full overflow-hidden rounded-lg bg-[#fbfaf7] [clip-path:inset(0_round_0.5rem)]">
         {hasImage ? (
           <img
             alt={item.imageAlt ?? item.title}
-            className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.03]"
+            className="block h-full w-full object-cover transition duration-500 group-hover:scale-[1.03]"
             src={item.imageSrc}
           />
         ) : (
@@ -509,12 +581,87 @@ function MediaCard({ item }: { item: MediaItem }) {
             <div className="absolute bottom-12 left-16 h-px w-24 rotate-[16deg] bg-[#1d1a16]/35" />
           </div>
         )}
+        <div className="absolute inset-x-0 bottom-0 bg-white/86 px-4 py-3 backdrop-blur-sm transition-transform duration-300 ease-out group-hover:translate-y-full">
+          <p className="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-[#8a6a44]">
+            {item.eyebrow}
+          </p>
+          <h2 className="truncate text-base font-semibold text-[#1d1a16]">{item.title}</h2>
+        </div>
       </div>
-      <div className="absolute inset-x-0 bottom-0 bg-white/86 px-4 py-3 backdrop-blur-sm transition-transform duration-300 ease-out group-hover:translate-y-full">
-        <p className="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-[#8a6a44]">
-          {item.eyebrow}
-        </p>
-        <h2 className="truncate text-base font-semibold text-[#1d1a16]">{item.title}</h2>
+    </a>
+  );
+}
+
+function ProjectCard({
+  project,
+  index,
+}: {
+  project: ProjectItem;
+  index: number;
+}) {
+  const isPlaceholder = project.href === "#";
+  const hasImage = Boolean(project.imageSrc);
+
+  return (
+    <a
+      className="group block text-left transition duration-300 ease-out hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-[#1d1a16]/20"
+      href={project.href}
+      rel={isPlaceholder ? undefined : "noreferrer"}
+      target={isPlaceholder ? undefined : "_blank"}
+    >
+      <div className="overflow-hidden rounded-lg border border-[#ded8cc] bg-[#fffdfa] shadow-[0_18px_48px_rgba(29,26,22,0.04)] transition duration-300 group-hover:border-[#b7ab9b] group-hover:shadow-[0_24px_58px_rgba(29,26,22,0.075)]">
+        <div className="relative aspect-[16/9] overflow-hidden bg-[#f8f5ee]">
+          {hasImage ? (
+            <img
+              alt={project.imageAlt ?? project.title}
+              className="h-full w-full object-cover grayscale-[8%] transition duration-500 group-hover:scale-[1.018] group-hover:grayscale-0"
+              src={project.imageSrc}
+            />
+          ) : (
+            <div className="relative h-full w-full bg-[#f7f3eb]">
+              <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(29,26,22,0.055)_1px,transparent_1px),linear-gradient(0deg,rgba(29,26,22,0.055)_1px,transparent_1px)] bg-[size:24px_24px]" />
+              <div className="absolute left-8 top-8 h-2 w-28 rounded-full bg-[#1d1a16]/16" />
+              <div className="absolute left-8 top-14 h-2 w-44 rounded-full bg-[#1d1a16]/9" />
+              <div className="absolute bottom-8 left-8 right-8 grid grid-cols-[1fr_0.72fr] gap-4">
+                <div className="h-28 rounded-md border border-[#1d1a16]/10 bg-white/70" />
+                <div className="grid gap-4">
+                  <div className="rounded-md border border-[#1d1a16]/10 bg-white/70" />
+                  <div className="rounded-md border border-[#1d1a16]/10 bg-white/70" />
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+
+        <div className="p-4 sm:p-5">
+          <div>
+            <div className="flex items-start justify-between gap-3">
+              <h2 className="text-[1.25rem] font-semibold leading-tight text-[#1d1a16] sm:text-[1.35rem]">
+                {project.title}
+              </h2>
+              <p className="shrink-0 pt-0.5 text-right text-xs font-medium lowercase tracking-normal text-[#756c61]">
+                {project.status}
+              </p>
+            </div>
+            <p className="mt-3 text-sm leading-6 text-[#625a50]">
+              {project.description}
+            </p>
+          </div>
+
+          <div className="mt-5 flex flex-wrap gap-2">
+            {project.tags.map((tag) => (
+              <span
+                className="rounded-full border border-[#e4ded3] bg-[#fbfaf7] px-3 py-1 text-[0.62rem] font-bold uppercase tracking-[0.12em] text-[#756c61]"
+                key={tag}
+              >
+                {tag}
+              </span>
+            ))}
+            <span className="ml-auto hidden pt-1 text-[0.62rem] font-bold uppercase tracking-[0.18em] text-[#1d1a16]/35 sm:block">
+              {String(index + 1).padStart(2, "0")}
+            </span>
+          </div>
+        </div>
       </div>
     </a>
   );
@@ -523,39 +670,18 @@ function MediaCard({ item }: { item: MediaItem }) {
 function ContentSection({
   section,
   index,
-  smoothSectionProgress,
 }: ContentSectionProps) {
   const copy = sectionCopy[section.id] ?? {
     title: section.label,
     body: "Placeholder section.",
   };
-  const inputRange = [index - 1, index, index + 1];
-  const opacity = useTransform(smoothSectionProgress, inputRange, [0.58, 1, 0.58]);
-  const scale = useTransform(smoothSectionProgress, inputRange, [0.985, 1, 0.985]);
-  const y = useTransform(
-    smoothSectionProgress,
-    inputRange,
-    section.id === "home" ? [-32, -64, -96] : [28, 0, -28],
-  );
-  const titleWeight = useTransform(smoothSectionProgress, inputRange, [600, 700, 600]);
-  const bodyOpacity = useTransform(smoothSectionProgress, inputRange, [0.62, 1, 0.62]);
-  const eyebrowX = useTransform(smoothSectionProgress, inputRange, [-8, 0, 8]);
-  const blur = useTransform(smoothSectionProgress, inputRange, [
-    "blur(0.6px)",
-    "blur(0px)",
-    "blur(0.6px)",
-  ]);
 
   if (section.id === "socials") {
     return (
       <footer id={section.id} className="scroll-mt-8 py-10 sm:py-14">
         <motion.div
           className="mx-auto w-full max-w-6xl text-center md:text-left"
-          style={{ opacity: bodyOpacity }}
         >
-          <p className="mb-6 text-sm font-semibold uppercase tracking-[0.24em] text-[#8a6a44]">
-            {String(index + 1).padStart(2, "0")} / {section.label}
-          </p>
           <SiteFooter />
         </motion.div>
       </footer>
@@ -565,41 +691,62 @@ function ContentSection({
   return (
     <section
       id={section.id}
-      className="relative grid min-h-screen scroll-mt-8 place-items-center py-24"
+      className={[
+        "relative grid min-h-screen scroll-mt-8 py-24",
+        section.id === "home" ? "place-items-start sm:py-32" : "place-items-center",
+      ].join(" ")}
     >
       <motion.div
         className={[
-          "w-full max-w-6xl text-center will-change-transform md:text-left",
+          "w-full max-w-5xl text-center md:text-left",
+          section.id === "home" ? "pt-44 sm:pt-20" : "",
           section.id === "socials" ? "w-full" : "",
         ].join(" ")}
-        style={{ opacity, scale, y, filter: blur }}
       >
         <motion.p
           className="mb-5 text-sm font-semibold uppercase tracking-[0.24em] text-[#8a6a44]"
-          style={{ x: eyebrowX }}
         >
           {String(index + 1).padStart(2, "0")} / {section.label}
         </motion.p>
         <motion.h1
-          className="text-5xl tracking-normal sm:text-7xl"
-          style={{ fontWeight: titleWeight }}
+          className="text-5xl font-bold tracking-normal sm:text-7xl"
         >
           {copy.title}
         </motion.h1>
         <motion.div
           className={[
-            "mx-auto mt-7 w-full text-lg leading-8 text-[#625a50] md:mx-0",
-            section.id === "home" ? "max-w-[68rem]" : "max-w-none",
+            "mx-auto w-full text-lg leading-8 text-[#625a50] md:mx-0",
+            section.id === "home" ? "mt-3 max-w-[68rem]" : "mt-7 max-w-none",
           ].join(" ")}
-          style={{ opacity: bodyOpacity }}
         >
           {copy.body}
         </motion.div>
+        {section.id === "home" ? (
+          <motion.div
+            className="mx-auto mt-10 grid w-full max-w-xs grid-cols-1 gap-4 overflow-visible px-2 py-4 sm:hidden"
+          >
+            {mediaItems.map((item) => (
+              <MediaCard item={item} key={item.title} />
+            ))}
+          </motion.div>
+        ) : null}
+        {section.id === "projects" ? (
+          <motion.div
+            className="mt-10 grid w-full grid-cols-1 gap-4 sm:grid-cols-3"
+          >
+            {projectItems.map((project, projectIndex) => (
+              <ProjectCard
+                index={projectIndex}
+                key={project.title}
+                project={project}
+              />
+            ))}
+          </motion.div>
+        ) : null}
       </motion.div>
       {section.id === "home" ? (
         <motion.div
-          className="absolute bottom-16 left-1/2 grid w-full max-w-5xl -translate-x-1/2 grid-cols-3 gap-3 px-5 sm:bottom-20 sm:gap-7"
-          style={{ opacity: bodyOpacity }}
+          className="absolute bottom-12 left-1/2 hidden w-full max-w-5xl -translate-x-1/2 grid-cols-3 gap-7 overflow-visible px-8 py-10 sm:grid lg:px-12"
         >
           {mediaItems.map((item) => (
             <MediaCard item={item} key={item.title} />
@@ -771,13 +918,12 @@ export function ScrollPortfolio({ sections }: ScrollPortfolioProps) {
         </div>
       </nav>
 
-      <div className="relative mx-auto max-w-7xl px-5 sm:px-8 md:ml-60">
+      <div className="relative mx-auto max-w-7xl px-8 sm:px-12 md:ml-60 lg:px-16 xl:px-20">
         {sections.map((section, index) => (
           <ContentSection
             key={section.id}
             section={section}
             index={index}
-            smoothSectionProgress={smoothSectionProgress}
           />
         ))}
       </div>
