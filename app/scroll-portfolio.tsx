@@ -3,7 +3,6 @@
 import {
   type CSSProperties,
   type ReactNode,
-  useEffect,
   useRef,
   useState,
 } from "react";
@@ -15,7 +14,6 @@ import {
   useSpring,
   useTransform,
 } from "framer-motion";
-import { animate, stagger } from "animejs";
 import { Cormorant_Garamond } from "next/font/google";
 
 type PortfolioSection = {
@@ -72,172 +70,6 @@ const scottDisplayFont = Cormorant_Garamond({
   style: ["italic"],
   weight: ["700"],
 });
-
-function GithubIcon({ size = 22 }: { size?: number }) {
-  return (
-    <svg
-      aria-hidden="true"
-      fill="none"
-      height={size}
-      viewBox="0 0 24 24"
-      width={size}
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        d="M9.1 19.2c-4.1 1.2-4.1-2-5.7-2.4m11.5 5.1v-3.2c0-.9-.3-1.5-.8-1.9 2.6-.3 5.3-1.3 5.3-5.8 0-1.3-.5-2.4-1.2-3.3.1-.3.5-1.6-.1-3.2 0 0-1-.3-3.3 1.2a11.1 11.1 0 0 0-6 0C6.5 4.2 5.5 4.5 5.5 4.5c-.6 1.6-.2 2.9-.1 3.2A4.7 4.7 0 0 0 4.2 11c0 4.5 2.7 5.5 5.3 5.8-.4.3-.7.9-.8 1.7v3.4"
-        stroke="currentColor"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth="1.7"
-      />
-    </svg>
-  );
-}
-
-function LinkedinIcon({ size = 22 }: { size?: number }) {
-  return (
-    <svg
-      aria-hidden="true"
-      fill="none"
-      height={size}
-      viewBox="0 0 24 24"
-      width={size}
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        d="M6.8 10.2v7.5m0-10.6v.1m4.2 10.5v-7.5m0 3.2c0-2.2 1.4-3.4 3.2-3.4 2 0 3 1.3 3 3.6v4.1"
-        stroke="currentColor"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth="1.8"
-      />
-      <rect
-        height="16"
-        rx="3"
-        stroke="currentColor"
-        strokeWidth="1.7"
-        width="16"
-        x="4"
-        y="4"
-      />
-    </svg>
-  );
-}
-
-function InstagramIcon({ size = 22 }: { size?: number }) {
-  return (
-    <svg
-      aria-hidden="true"
-      fill="none"
-      height={size}
-      viewBox="0 0 24 24"
-      width={size}
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <rect
-        height="15.5"
-        rx="4.2"
-        stroke="currentColor"
-        strokeWidth="1.7"
-        width="15.5"
-        x="4.25"
-        y="4.25"
-      />
-      <circle cx="12" cy="12" r="3.4" stroke="currentColor" strokeWidth="1.7" />
-      <path
-        d="M16.6 7.6h.01"
-        stroke="currentColor"
-        strokeLinecap="round"
-        strokeWidth="2.4"
-      />
-    </svg>
-  );
-}
-
-function DiscordIcon({ size = 22 }: { size?: number }) {
-  return (
-    <svg
-      aria-hidden="true"
-      fill="none"
-      height={size}
-      viewBox="0 0 24 24"
-      width={size}
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        d="M8.1 7.7c2.6-.8 5.2-.8 7.8 0m-9.4 7.5c3.5 1.8 7.5 1.8 11 0 .7-2.5.5-5.1-.8-7.7a9 9 0 0 0-2.8-1.1l-.4.8a10 10 0 0 0-3 0l-.4-.8a9 9 0 0 0-2.8 1.1c-1.3 2.6-1.5 5.2-.8 7.7Z"
-        stroke="currentColor"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth="1.7"
-      />
-      <path
-        d="M9.6 12.2h.01M14.4 12.2h.01"
-        stroke="currentColor"
-        strokeLinecap="round"
-        strokeWidth="2.5"
-      />
-    </svg>
-  );
-}
-
-function ResumeIcon({ size = 22 }: { size?: number }) {
-  return (
-    <svg
-      aria-hidden="true"
-      fill="none"
-      height={size}
-      viewBox="0 0 24 24"
-      width={size}
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        d="M7 3.75h6.2L17 7.55v12.7H7V3.75Z"
-        stroke="currentColor"
-        strokeLinejoin="round"
-        strokeWidth="1.7"
-      />
-      <path
-        d="M13 4v4h4M9.3 11.2h5.4M9.3 14h5.4M9.3 16.8h3.2"
-        stroke="currentColor"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth="1.7"
-      />
-    </svg>
-  );
-}
-
-function EmailIcon({ size = 22 }: { size?: number }) {
-  return (
-    <svg
-      aria-hidden="true"
-      fill="none"
-      height={size}
-      viewBox="0 0 24 24"
-      width={size}
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <rect
-        height="14"
-        rx="3"
-        stroke="currentColor"
-        strokeWidth="1.7"
-        width="17"
-        x="3.5"
-        y="5"
-      />
-      <path
-        d="m4.5 7.8 7.5 5.1 7.5-5.1"
-        stroke="currentColor"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth="1.7"
-      />
-    </svg>
-  );
-}
-
 
 // Replace the href values here with your real social profile links.
 const socialLinks: SocialLink[] = [
@@ -302,37 +134,57 @@ const mediaItems: MediaItem[] = [
 
 const projectItems: ProjectItem[] = [
   {
-    title: "Robot Dog Controls",
+    title: "Project Placeholder",
     description:
-      "Locomotion tests, telemetry notes, and field controls for hardware that has to move cleanly in the real world.",
+      "Short placeholder copy for a featured build. Use this space for a concise summary of the problem, what you made, and the outcome.",
     href: "#",
     tags: ["Robotics", "Controls", "Hardware"],
-    status: "In progress",
+    status: "project",
     accent: "#70756d",
-    imageSrc: "/lahacks-2026.png",
-    imageAlt: "Hardware project setup from LA Hacks 2026",
+    imageSrc: "https://picsum.photos/seed/robotics-lab/1200/760",
+    imageAlt: "High quality robotics lab placeholder image",
   },
   {
-    title: "Rail Sustainability Data",
+    title: "Project Placeholder",
     description:
-      "A compact case-study space for analysis, visualizations, and transportation sustainability thinking.",
+      "Short placeholder copy for a case study. Keep the description direct, readable, and focused on what the project demonstrates.",
     href: "#",
     tags: ["Data Science", "Visualization", "Hackathon"],
-    status: "Case study",
+    status: "project",
     accent: "#587274",
-    imageSrc: "/the-canadian.jpg",
-    imageAlt: "The Canadian train traveling through mountain scenery",
+    imageSrc: "https://picsum.photos/seed/rail-data/1200/760",
+    imageAlt: "High quality transportation data placeholder image",
   },
   {
-    title: "Personal Site System",
+    title: "Project Placeholder",
     description:
-      "This site as a living interface experiment with motion, responsive layout, and personal storytelling.",
+      "Short placeholder copy for another selected project. Add context, tools, and a result once the final project details are ready.",
     href: repoHref,
     tags: ["Next.js", "Tailwind", "Animation"],
-    status: "Live",
+    status: "project",
     accent: "#26231f",
+    imageSrc: "https://picsum.photos/seed/interface-system/1200/760",
+    imageAlt: "High quality interface design placeholder image",
   },
 ];
+
+const techStack = {
+  languages: [
+    { label: "Python", icon: "https://cdn.simpleicons.org/python/3776AB" },
+    { label: "JavaScript", icon: "https://cdn.simpleicons.org/javascript/F7DF1E" },
+    { label: "TypeScript", icon: "https://cdn.simpleicons.org/typescript/3178C6" },
+  ],
+  tools: [
+    { label: "React", icon: "https://cdn.simpleicons.org/react/61DAFB" },
+    { label: "Next.js", icon: "https://cdn.simpleicons.org/nextdotjs/000000" },
+    { label: "Tailwind CSS", icon: "https://cdn.simpleicons.org/tailwindcss/06B6D4" },
+    { label: "Arduino", icon: "https://cdn.simpleicons.org/arduino/00878F" },
+    { label: "Raspberry Pi", icon: "https://cdn.simpleicons.org/raspberrypi/A22846" },
+    { label: "Git", icon: "https://cdn.simpleicons.org/git/F05032" },
+  ],
+};
+
+const techStackItems = [...techStack.languages, ...techStack.tools];
 
 const sectionCopy: Record<string, { title: ReactNode; body: ReactNode }> = {
   home: {
@@ -347,8 +199,8 @@ const sectionCopy: Record<string, { title: ReactNode; body: ReactNode }> = {
     body: <h4 style={{ fontSize: "1.3rem", fontWeight: 500 }}>I graduated high school early, now I'm a <b>Robotics Engineering Intern @ RobotX ∪ Data Science Transfer Student @ IVC</b> </h4>
   },
   projects: {
-    title: "Selected projects",
-    body: "A small collection of builds, prototypes, and interface experiments.",
+    title: "Projects & Experience",
+    body: "Some things I've worked on or am currently working on",
   },
   work: {
     title: "Robot dog showcase",
@@ -373,6 +225,13 @@ const tickerCenterOffset = 22;
 const sidebarTextClass =
   "font-[Arial,Helvetica,sans-serif] font-bold uppercase tracking-[0.24em]";
 
+function scrollToSection(sectionId: string) {
+  document.getElementById(sectionId)?.scrollIntoView({
+    behavior: "smooth",
+    block: "start",
+  });
+}
+
 function SidebarNavItem({
   section,
   index,
@@ -393,6 +252,10 @@ function SidebarNavItem({
   return (
     <motion.a
       href={`#${section.id}`}
+      onClick={(event) => {
+        event.preventDefault();
+        scrollToSection(section.id);
+      }}
       className="relative flex min-h-11 items-center overflow-hidden rounded-lg px-4 py-2.5 text-[#8a8175] transition-colors duration-300 hover:text-[#1d1a16]"
       animate={{
         paddingLeft: isActive ? 18 : 16,
@@ -415,36 +278,16 @@ function SidebarNavItem({
 }
 
 function SiteFooter() {
-  const artRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const lines = artRef.current?.querySelectorAll(".footer-art-line");
-
-    if (!lines?.length) {
-      return;
-    }
-
-    const drift = animate(lines, {
-      x: [0, 14, -8, 0],
-      y: [0, -8, 6, 0],
-      opacity: [0.22, 0.62, 0.34, 0.22],
-      duration: 5600,
-      delay: stagger(160),
-      ease: "inOutSine",
-      loop: true,
-    });
-
-    return () => {
-      drift.revert();
-    };
-  }, []);
-
   return (
     <div className="border-t border-[#ded8cc] py-8 text-sm text-[#756c61]">
       <div className="grid gap-8 text-center md:grid-cols-[1fr_auto_1fr] md:items-start md:text-left">
         <div>
           <a
             href="#home"
+            onClick={(event) => {
+              event.preventDefault();
+              scrollToSection("home");
+            }}
             className={[
               "text-[#1d1a16]",
               sidebarTextClass,
@@ -458,7 +301,7 @@ function SiteFooter() {
         </div>
 
         <div className="flex flex-col items-center gap-1">
-            <p className="text-[0.68rem] font-bold uppercase tracking-[0.24em] text-[#8a6a44]">
+            <p className="font-[var(--font-geist-mono)] text-[0.68rem] font-bold uppercase tracking-[0.24em] text-[#8a6a44]">
               Connect
             </p>
             <div className="flex flex-wrap items-center justify-center gap-2">
@@ -479,6 +322,8 @@ function SiteFooter() {
                       alt=""
                       aria-hidden="true"
                       className={`${iconClassName ?? "h-10 w-10"} object-contain transition-transform duration-300 group-hover:scale-110`}
+                      decoding="async"
+                      loading="lazy"
                       src={iconSrc}
                     />
                   </a>
@@ -510,7 +355,6 @@ function SiteFooter() {
       </div>
 
       <div
-        ref={artRef}
         aria-hidden="true"
         className="mt-8 h-28 overflow-hidden border-t border-[#eee9df] pt-6"
       >
@@ -559,18 +403,20 @@ function MediaCard({ item }: { item: MediaItem }) {
 
   return (
     <a
-      className="group relative block aspect-[4/3] w-full max-w-72 rotate-[var(--card-rotation)] overflow-hidden rounded-lg text-left shadow-[0_14px_34px_rgba(29,26,22,0.06)] transition duration-300 ease-out hover:-translate-y-2 hover:rotate-0 hover:shadow-[0_22px_46px_rgba(29,26,22,0.12)] focus:outline-none"
+      className="group relative block aspect-[4/3] w-full max-w-72 rotate-[var(--card-rotation)] overflow-hidden rounded-lg border border-[#f3eee7] bg-[#fffdfa] p-0.5 text-left shadow-[0_14px_32px_rgba(29,26,22,0.03)] transition duration-300 ease-out hover:-translate-y-2 hover:rotate-0 hover:border-[#ebe4da] hover:shadow-[0_20px_40px_rgba(29,26,22,0.05)] focus:outline-none"
       href={item.href}
       rel={item.href.startsWith("#") ? undefined : "noreferrer"}
       style={cardStyle}
       target={item.href.startsWith("#") ? undefined : "_blank"}
       title={item.description}
     >
-      <div className="relative h-full overflow-hidden rounded-lg bg-[#fbfaf7] [clip-path:inset(0_round_0.5rem)]">
+      <div className="relative h-full overflow-hidden rounded-md bg-[#fbfaf7] [clip-path:inset(0_round_0.375rem)]">
         {hasImage ? (
           <img
             alt={item.imageAlt ?? item.title}
             className="block h-full w-full object-cover transition duration-500 group-hover:scale-[1.03]"
+            decoding="async"
+            loading="lazy"
             src={item.imageSrc}
           />
         ) : (
@@ -582,7 +428,7 @@ function MediaCard({ item }: { item: MediaItem }) {
           </div>
         )}
         <div className="absolute inset-x-0 bottom-0 bg-white/86 px-4 py-3 backdrop-blur-sm transition-transform duration-300 ease-out group-hover:translate-y-full">
-          <p className="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-[#8a6a44]">
+          <p className="font-[var(--font-geist-mono)] text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-[#8a6a44]">
             {item.eyebrow}
           </p>
           <h2 className="truncate text-base font-semibold text-[#1d1a16]">{item.title}</h2>
@@ -594,27 +440,27 @@ function MediaCard({ item }: { item: MediaItem }) {
 
 function ProjectCard({
   project,
-  index,
 }: {
   project: ProjectItem;
-  index: number;
 }) {
   const isPlaceholder = project.href === "#";
   const hasImage = Boolean(project.imageSrc);
 
   return (
     <a
-      className="group block text-left transition duration-300 ease-out hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-[#1d1a16]/20"
+      className="group block text-left transition duration-200 ease-out hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-[#1d1a16]/20"
       href={project.href}
       rel={isPlaceholder ? undefined : "noreferrer"}
       target={isPlaceholder ? undefined : "_blank"}
     >
-      <div className="overflow-hidden rounded-lg border border-[#ded8cc] bg-[#fffdfa] shadow-[0_18px_48px_rgba(29,26,22,0.04)] transition duration-300 group-hover:border-[#b7ab9b] group-hover:shadow-[0_24px_58px_rgba(29,26,22,0.075)]">
-        <div className="relative aspect-[16/9] overflow-hidden bg-[#f8f5ee]">
+      <div className="h-full rounded-lg border border-[#eee8de] bg-[#fffdfa] p-1.5 shadow-[0_14px_38px_rgba(29,26,22,0.035)] transition duration-300 group-hover:border-[#ded8cc] group-hover:shadow-[0_20px_46px_rgba(29,26,22,0.06)]">
+        <div className="relative aspect-video overflow-hidden rounded-md bg-[#f8f5ee] shadow-[0_12px_34px_rgba(29,26,22,0.035)]">
           {hasImage ? (
             <img
               alt={project.imageAlt ?? project.title}
-              className="h-full w-full object-cover grayscale-[8%] transition duration-500 group-hover:scale-[1.018] group-hover:grayscale-0"
+              className="h-full w-full object-cover grayscale-[8%] transition duration-300 group-hover:scale-[1.01] group-hover:grayscale-0"
+              decoding="async"
+              loading="lazy"
               src={project.imageSrc}
             />
           ) : (
@@ -633,37 +479,51 @@ function ProjectCard({
           )}
         </div>
 
-        <div className="p-4 sm:p-5">
-          <div>
-            <div className="flex items-start justify-between gap-3">
-              <h2 className="text-[1.25rem] font-semibold leading-tight text-[#1d1a16] sm:text-[1.35rem]">
-                {project.title}
-              </h2>
-              <p className="shrink-0 pt-0.5 text-right text-xs font-medium lowercase tracking-normal text-[#756c61]">
-                {project.status}
-              </p>
-            </div>
-            <p className="mt-3 text-sm leading-6 text-[#625a50]">
-              {project.description}
+        <div className="pt-2.5">
+          <div className="flex items-start justify-between gap-3">
+            <h2 className="text-[1rem] font-medium leading-tight text-[#1d1a16]">
+              {project.title}
+            </h2>
+            <p className="shrink-0 pr-1 pt-0.5 text-right text-[0.72rem] font-normal lowercase tracking-normal text-[#756c61]">
+              {project.status}
             </p>
           </div>
-
-          <div className="mt-5 flex flex-wrap gap-2">
-            {project.tags.map((tag) => (
-              <span
-                className="rounded-full border border-[#e4ded3] bg-[#fbfaf7] px-3 py-1 text-[0.62rem] font-bold uppercase tracking-[0.12em] text-[#756c61]"
-                key={tag}
-              >
-                {tag}
-              </span>
-            ))}
-            <span className="ml-auto hidden pt-1 text-[0.62rem] font-bold uppercase tracking-[0.18em] text-[#1d1a16]/35 sm:block">
-              {String(index + 1).padStart(2, "0")}
-            </span>
-          </div>
+          <p className="mt-2 min-h-[4.25rem] text-[0.76rem] leading-[1.25rem] text-[#625a50]">
+            {project.description}
+          </p>
         </div>
       </div>
     </a>
+  );
+}
+
+function TechStackStrip() {
+  return (
+    <div className="mt-8 max-w-5xl rounded-lg border border-[#eee8de] bg-[#fffdfa] p-4 shadow-[0_14px_38px_rgba(29,26,22,0.025)]">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-start">
+        <p className="w-28 shrink-0 font-[var(--font-geist-mono)] text-[0.68rem] font-bold uppercase tracking-[0.18em] text-[#8a6a44]">
+          Tech stack
+        </p>
+        <div className="flex flex-wrap gap-2">
+          {techStackItems.map((tool) => (
+            <span
+              className="inline-flex items-center gap-1.5 rounded-full bg-[#f7f3eb] px-3 py-1 font-[var(--font-geist-mono)] text-[0.62rem] font-semibold uppercase tracking-[0.1em] text-[#625a50]"
+              key={tool.label}
+            >
+              <img
+                alt=""
+                aria-hidden="true"
+                className="h-3.5 w-3.5 object-contain"
+                decoding="async"
+                loading="lazy"
+                src={tool.icon}
+              />
+              {tool.label}
+            </span>
+          ))}
+        </div>
+      </div>
+    </div>
   );
 }
 
@@ -679,11 +539,11 @@ function ContentSection({
   if (section.id === "socials") {
     return (
       <footer id={section.id} className="scroll-mt-8 py-10 sm:py-14">
-        <motion.div
+        <div
           className="mx-auto w-full max-w-6xl text-center md:text-left"
         >
           <SiteFooter />
-        </motion.div>
+        </div>
       </footer>
     );
   }
@@ -693,65 +553,65 @@ function ContentSection({
       id={section.id}
       className={[
         "relative grid min-h-screen scroll-mt-8 py-24",
-        section.id === "home" ? "place-items-start sm:py-32" : "place-items-center",
+        section.id === "home" ? "place-items-start pb-36 sm:py-32 sm:pb-44" : "place-items-center",
       ].join(" ")}
     >
-      <motion.div
+      <div
         className={[
           "w-full max-w-5xl text-center md:text-left",
           section.id === "home" ? "pt-44 sm:pt-20" : "",
           section.id === "socials" ? "w-full" : "",
         ].join(" ")}
       >
-        <motion.p
-          className="mb-5 text-sm font-semibold uppercase tracking-[0.24em] text-[#8a6a44]"
+        <p
+          className="mb-5 font-[var(--font-geist-mono)] text-sm font-semibold uppercase tracking-[0.24em] text-[#8a6a44]"
         >
           {String(index + 1).padStart(2, "0")} / {section.label}
-        </motion.p>
-        <motion.h1
+        </p>
+        <h1
           className="text-5xl font-bold tracking-normal sm:text-7xl"
         >
           {copy.title}
-        </motion.h1>
-        <motion.div
+        </h1>
+        <div
           className={[
             "mx-auto w-full text-lg leading-8 text-[#625a50] md:mx-0",
             section.id === "home" ? "mt-3 max-w-[68rem]" : "mt-7 max-w-none",
           ].join(" ")}
         >
           {copy.body}
-        </motion.div>
+        </div>
         {section.id === "home" ? (
-          <motion.div
+          <div
             className="mx-auto mt-10 grid w-full max-w-xs grid-cols-1 gap-4 overflow-visible px-2 py-4 sm:hidden"
           >
             {mediaItems.map((item) => (
               <MediaCard item={item} key={item.title} />
             ))}
-          </motion.div>
+          </div>
         ) : null}
         {section.id === "projects" ? (
-          <motion.div
-            className="mt-10 grid w-full grid-cols-1 gap-4 sm:grid-cols-3"
-          >
-            {projectItems.map((project, projectIndex) => (
-              <ProjectCard
-                index={projectIndex}
-                key={project.title}
-                project={project}
-              />
-            ))}
-          </motion.div>
+          <div className="mt-10 md:pl-6 lg:pl-8">
+            <div className="mx-auto grid w-full max-w-5xl grid-cols-1 gap-x-5 gap-y-9 sm:grid-cols-2 lg:grid-cols-3 md:mx-0">
+              {projectItems.map((project) => (
+                <ProjectCard
+                  key={project.title}
+                  project={project}
+                />
+              ))}
+            </div>
+            <TechStackStrip />
+          </div>
         ) : null}
-      </motion.div>
+      </div>
       {section.id === "home" ? (
-        <motion.div
+        <div
           className="absolute bottom-12 left-1/2 hidden w-full max-w-5xl -translate-x-1/2 grid-cols-3 gap-7 overflow-visible px-8 py-10 sm:grid lg:px-12"
         >
           {mediaItems.map((item) => (
             <MediaCard item={item} key={item.title} />
           ))}
-        </motion.div>
+        </div>
       ) : null}
     </section>
   );
@@ -788,28 +648,6 @@ export function ScrollPortfolio({ sections }: ScrollPortfolioProps) {
     }
   });
 
-  useEffect(() => {
-    const updateFromHash = () => {
-      const hashId = window.location.hash.replace("#", "");
-      const hashIndex = sections.findIndex((section) => section.id === hashId);
-
-      if (hashIndex >= 0) {
-        setActiveId(sections[hashIndex].id);
-      }
-    };
-
-    updateFromHash();
-    const firstFrame = window.setTimeout(updateFromHash, 0);
-    const settledFrame = window.setTimeout(updateFromHash, 250);
-    window.addEventListener("hashchange", updateFromHash);
-
-    return () => {
-      window.clearTimeout(firstFrame);
-      window.clearTimeout(settledFrame);
-      window.removeEventListener("hashchange", updateFromHash);
-    };
-  }, [sections]);
-
   const scrollToTickerPoint = (clientY: number) => {
     const rail = navRailRef.current;
 
@@ -836,6 +674,10 @@ export function ScrollPortfolio({ sections }: ScrollPortfolioProps) {
         <nav className="flex h-full flex-col justify-between px-5 py-7">
           <a
             href="#home"
+            onClick={(event) => {
+              event.preventDefault();
+              scrollToSection("home");
+            }}
             className={[
               "text-sm text-[#1d1a16]",
               sidebarTextClass,
@@ -900,7 +742,14 @@ export function ScrollPortfolio({ sections }: ScrollPortfolioProps) {
       </aside>
 
       <nav className="fixed left-4 right-4 top-4 z-40 flex items-center justify-between rounded-full border border-[#ded8cc] bg-[#fbf8f1]/90 px-4 py-3 backdrop-blur md:hidden">
-        <a href="#home" className="text-xs font-semibold tracking-[0.18em]">
+        <a
+          href="#home"
+          onClick={(event) => {
+            event.preventDefault();
+            scrollToSection("home");
+          }}
+          className="text-xs font-semibold tracking-[0.18em]"
+        >
           SCOTT
         </a>
         <div className="flex gap-1">
@@ -908,6 +757,10 @@ export function ScrollPortfolio({ sections }: ScrollPortfolioProps) {
             <a
               key={section.id}
               href={`#${section.id}`}
+              onClick={(event) => {
+                event.preventDefault();
+                scrollToSection(section.id);
+              }}
               className={[
                 "h-2.5 w-2.5 rounded-full transition",
                 activeId === section.id ? "bg-[#1d1a16]" : "bg-[#c8bdad]",
