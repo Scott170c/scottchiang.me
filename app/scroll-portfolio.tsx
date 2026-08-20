@@ -1,8 +1,11 @@
 "use client";
 
 import {
+  Fragment,
   type CSSProperties,
   type ReactNode,
+  useEffect,
+  useMemo,
   useRef,
   useState,
 } from "react";
@@ -15,6 +18,14 @@ import {
   useTransform,
 } from "framer-motion";
 import { Cormorant_Garamond } from "next/font/google";
+import projectItemsData from "../data/projects.json";
+import {
+  FOOTER_REGION_COLORS,
+  footerArtDesktop,
+  footerArtMobile,
+  type FooterArtVariant,
+} from "../lib/footer-art";
+import type { ProjectItem } from "../lib/types";
 
 type PortfolioSection = {
   id: string;
@@ -49,18 +60,6 @@ type MediaItem = {
   eyebrow: string;
   description: string;
   href: string;
-  imageSrc?: string;
-  imageAlt?: string;
-  rotation?: string;
-};
-
-type ProjectItem = {
-  title: string;
-  description: string;
-  href: string;
-  tags: string[];
-  status: string;
-  accent: string;
   imageSrc?: string;
   imageAlt?: string;
 };
@@ -110,7 +109,6 @@ const mediaItems: MediaItem[] = [
     href: "https://www.linkedin.com/posts/chiangscott_lahacks-hackathons-hardware-share-7455792654304567296-wDjJ/",
     imageSrc: "/lahacks-2026.png",
     imageAlt: "LAHacks 2026 project photo",
-    rotation: "-2.5deg",
   },
   {
     title: "VIA Rail x Hack Club Hackathon",
@@ -119,7 +117,6 @@ const mediaItems: MediaItem[] = [
     href: "https://media.viarail.ca/en/press-releases/2024/50-young-hack-club-coders-champion-sustainable-future-rails-canadian",
     imageSrc: "/the-canadian.jpg",
     imageAlt: "The Canadian train traveling through mountain scenery",
-    rotation: "1.75deg",
   },
   {
     title: "Highlight",
@@ -128,63 +125,56 @@ const mediaItems: MediaItem[] = [
     href: "https://example.com/media",
     imageSrc: "",
     imageAlt: "Media placeholder",
-    rotation: "-1.25deg",
   },
 ];
 
-const projectItems: ProjectItem[] = [
-  {
-    title: "Project Placeholder",
-    description:
-      "Short placeholder copy for a featured build. Use this space for a concise summary of the problem, what you made, and the outcome.",
-    href: "#",
-    tags: ["Robotics", "Controls", "Hardware"],
-    status: "project",
-    accent: "#70756d",
-    imageSrc: "https://picsum.photos/seed/robotics-lab/1200/760",
-    imageAlt: "High quality robotics lab placeholder image",
-  },
-  {
-    title: "Project Placeholder",
-    description:
-      "Short placeholder copy for a case study. Keep the description direct, readable, and focused on what the project demonstrates.",
-    href: "#",
-    tags: ["Data Science", "Visualization", "Hackathon"],
-    status: "project",
-    accent: "#587274",
-    imageSrc: "https://picsum.photos/seed/rail-data/1200/760",
-    imageAlt: "High quality transportation data placeholder image",
-  },
-  {
-    title: "Project Placeholder",
-    description:
-      "Short placeholder copy for another selected project. Add context, tools, and a result once the final project details are ready.",
-    href: repoHref,
-    tags: ["Next.js", "Tailwind", "Animation"],
-    status: "project",
-    accent: "#26231f",
-    imageSrc: "https://picsum.photos/seed/interface-system/1200/760",
-    imageAlt: "High quality interface design placeholder image",
-  },
-];
+const projectItems = projectItemsData as ProjectItem[];
 
 const techStack = {
   languages: [
     { label: "Python", icon: "https://cdn.simpleicons.org/python/3776AB" },
     { label: "JavaScript", icon: "https://cdn.simpleicons.org/javascript/F7DF1E" },
     { label: "TypeScript", icon: "https://cdn.simpleicons.org/typescript/3178C6" },
+    { label: "CSS", icon: "https://cdn.simpleicons.org/css/663399" },
+    { label: "HTML", icon: "https://cdn.simpleicons.org/html5/E34F26" },
+    { label: "Java", icon: "https://cdn.simpleicons.org/openjdk/437291" },
+    { label: "C++", icon: "https://cdn.simpleicons.org/cplusplus/00599C" },
+    { label: "MATLAB", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/matlab/matlab-original.svg" },
   ],
-  tools: [
+  web: [
     { label: "React", icon: "https://cdn.simpleicons.org/react/61DAFB" },
     { label: "Next.js", icon: "https://cdn.simpleicons.org/nextdotjs/000000" },
     { label: "Tailwind CSS", icon: "https://cdn.simpleicons.org/tailwindcss/06B6D4" },
+    { label: "Firebase", icon: "https://cdn.simpleicons.org/firebase/FFCA28" },
+    { label: "Vercel", icon: "https://cdn.simpleicons.org/vercel/000000" },
+  ],
+  hardware: [
     { label: "Arduino", icon: "https://cdn.simpleicons.org/arduino/00878F" },
     { label: "Raspberry Pi", icon: "https://cdn.simpleicons.org/raspberrypi/A22846" },
+    { label: "ESP32", icon: "https://cdn.simpleicons.org/espressif/E7352C" },
+    { label: "ROS2", icon: "https://cdn.simpleicons.org/ros/22314E" },
+  ],
+  tools: [
     { label: "Git", icon: "https://cdn.simpleicons.org/git/F05032" },
+    { label: "GitHub", icon: "https://cdn.simpleicons.org/github/181717" },
+    { label: "Linux", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linux/linux-original.svg" },
+    { label: "Claude Code", icon: "https://cdn.jsdelivr.net/npm/@lobehub/icons-static-svg@latest/icons/claudecode-color.svg" },
+    { label: "Codex", icon: "/tech-icons/codex-color-transparent.svg" },
+  ],
+  design: [
+    { label: "KiCad", icon: "https://upload.wikimedia.org/wikipedia/commons/6/65/KiCad_logo_square.svg" },
+    { label: "EasyEDA", icon: "https://cdn.simpleicons.org/easyeda/1765F6" },
+    { label: "Fusion 360", icon: "https://cdn.simpleicons.org/autodesk/000000" },
   ],
 };
 
-const techStackItems = [...techStack.languages, ...techStack.tools];
+const techStackItems = [
+  ...techStack.languages,
+  ...techStack.web,
+  ...techStack.hardware,
+  ...techStack.tools,
+  ...techStack.design,
+];
 
 const sectionCopy: Record<string, { title: ReactNode; body: ReactNode }> = {
   home: {
@@ -196,10 +186,10 @@ const sectionCopy: Record<string, { title: ReactNode; body: ReactNode }> = {
         </span>
       </p>
     ),
-    body: <h4 style={{ fontSize: "1.3rem", fontWeight: 500 }}>I graduated high school early, now I'm a <b>Robotics Engineering Intern @ RobotX ∪ Data Science Transfer Student @ IVC</b> </h4>
+    body: <h4 style={{ fontSize: "1.4rem", fontWeight: 500, lineHeight: 1.5 }}>I left high school early, now I'm an <b>MTS Intern @ RobotX AI</b> and studying <b>Data Science @ IVC</b> </h4>
   },
   projects: {
-    title: "Projects & Experience",
+    title: "My Works",
     body: "Some things I've worked on or am currently working on",
   },
   work: {
@@ -223,7 +213,7 @@ const sectionCopy: Record<string, { title: ReactNode; body: ReactNode }> = {
 const navItemStep = 52;
 const tickerCenterOffset = 22;
 const sidebarTextClass =
-  "font-[Arial,Helvetica,sans-serif] font-bold uppercase tracking-[0.24em]";
+  "font-[var(--font-geist-sans)] font-bold uppercase tracking-[0.24em]";
 
 function scrollToSection(sectionId: string) {
   document.getElementById(sectionId)?.scrollIntoView({
@@ -277,10 +267,225 @@ function SidebarNavItem({
   );
 }
 
+// ASCII art banner. Renders the pre at 10px in `w-max` so it takes its full
+// natural line width, then transform-scales the whole thing to exactly fill
+// the container -- sidesteps the browser's ~4-6px minimum font-size floor so
+// the grid still fits on narrow viewports without clipping.
+//
+// Non-space characters are individual <span>s indexed by (row, col) so
+// pointermove can scramble a radius around the cursor and restore when the
+// cursor moves away. Spaces stay as plain text to keep the DOM count sane.
+//
+// Two art variants live in lib/footer-art.ts -- desktop is wide and short,
+// mobile is narrow and tall -- and we swap between them via matchMedia so
+// each viewport gets a scene that reads well at its natural aspect ratio.
+const MOBILE_MEDIA_QUERY = "(max-width: 767px)";
+
+function useFooterArtVariant(): FooterArtVariant {
+  const [variant, setVariant] = useState<FooterArtVariant>(footerArtDesktop);
+
+  useEffect(() => {
+    const mq = window.matchMedia(MOBILE_MEDIA_QUERY);
+    const apply = () => setVariant(mq.matches ? footerArtMobile : footerArtDesktop);
+    apply();
+    mq.addEventListener("change", apply);
+    return () => mq.removeEventListener("change", apply);
+  }, []);
+
+  return variant;
+}
+
+function FooterAsciiArt({ className }: { className?: string }) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const preRef = useRef<HTMLPreElement>(null);
+  const cellsRef = useRef<Map<string, HTMLSpanElement>>(new Map());
+  const variant = useFooterArtVariant();
+  const { lines, columns, classify } = variant;
+
+  // Character pool for hover scrambles -- drawn from the current variant's own
+  // non-space glyphs so scrambled cells stay visually native to the scene.
+  const obfuscationPool = useMemo(
+    () => Array.from(new Set(lines.join("").replace(/\s/g, ""))).join(""),
+    [lines],
+  );
+
+  // Fit-to-container. Re-runs when the variant changes because the pre's
+  // natural size changes with it.
+  useEffect(() => {
+    const container = containerRef.current;
+    const pre = preRef.current;
+    if (!container || !pre) return;
+
+    const fit = () => {
+      pre.style.transform = "none";
+      const natural = pre.offsetWidth;
+      const naturalH = pre.offsetHeight;
+      if (natural === 0) return;
+      const scale = container.clientWidth / natural;
+      pre.style.transformOrigin = "top left";
+      pre.style.transform = `scale(${scale})`;
+      container.style.height = `${naturalH * scale}px`;
+    };
+
+    fit();
+    const ro = new ResizeObserver(fit);
+    ro.observe(container);
+    return () => ro.disconnect();
+  }, [variant]);
+
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    const RADIUS = 3;
+    const rows = lines.length;
+    const cells = cellsRef.current;
+    const originals = new Map<HTMLSpanElement, string>();
+    let scrambled = new Set<HTMLSpanElement>();
+
+    // rAF-throttled state: pointermove can fire 100+ times/sec, but we only
+    // need one scramble per animation frame. Storing the latest event and
+    // running the actual work in a rAF callback keeps the scroll thread clean.
+    let latestX = 0;
+    let latestY = 0;
+    let frameId: number | null = null;
+
+    const runScramble = () => {
+      frameId = null;
+      const rect = container.getBoundingClientRect();
+      if (rect.width === 0 || rect.height === 0) return;
+      const col = Math.floor(((latestX - rect.left) / rect.width) * columns);
+      const row = Math.floor(((latestY - rect.top) / rect.height) * rows);
+
+      const next = new Set<HTMLSpanElement>();
+      for (let dr = -RADIUS; dr <= RADIUS; dr++) {
+        for (let dc = -RADIUS; dc <= RADIUS; dc++) {
+          const span = cells.get(`${row + dr},${col + dc}`);
+          if (!span) continue;
+          if (!originals.has(span)) {
+            originals.set(span, span.textContent ?? "");
+          }
+          span.textContent =
+            obfuscationPool[
+              Math.floor(Math.random() * obfuscationPool.length)
+            ];
+          next.add(span);
+        }
+      }
+
+      scrambled.forEach((span) => {
+        if (!next.has(span)) {
+          const orig = originals.get(span);
+          if (orig !== undefined) span.textContent = orig;
+        }
+      });
+      scrambled = next;
+    };
+
+    const onMove = (event: PointerEvent) => {
+      latestX = event.clientX;
+      latestY = event.clientY;
+      if (frameId === null) {
+        frameId = requestAnimationFrame(runScramble);
+      }
+    };
+
+    const onLeave = () => {
+      if (frameId !== null) {
+        cancelAnimationFrame(frameId);
+        frameId = null;
+      }
+      scrambled.forEach((span) => {
+        const orig = originals.get(span);
+        if (orig !== undefined) span.textContent = orig;
+      });
+      scrambled.clear();
+    };
+
+    container.addEventListener("pointermove", onMove, { passive: true });
+    container.addEventListener("pointerleave", onLeave);
+    return () => {
+      if (frameId !== null) cancelAnimationFrame(frameId);
+      container.removeEventListener("pointermove", onMove);
+      container.removeEventListener("pointerleave", onLeave);
+    };
+  }, [lines, columns, obfuscationPool]);
+
+  return (
+    <div
+      ref={containerRef}
+      aria-hidden="true"
+      className={["overflow-hidden", className ?? ""].join(" ")}
+    >
+      <pre
+        ref={preRef}
+        // A unique key per variant clears the ref map when the art swaps so
+        // stale (row, col) entries from the previous variant don't linger.
+        key={variant === footerArtMobile ? "mobile" : "desktop"}
+        className="m-0 w-max whitespace-pre font-[var(--font-geist-mono)] text-[10px] leading-[1.05]"
+      >
+        {lines.map((line, r) => (
+          <Fragment key={r}>
+            {Array.from(line).map((ch, c) => {
+              if (ch === " ") return " ";
+              const region = classify(r, c);
+              return (
+                <span
+                  key={c}
+                  ref={(el) => {
+                    const key = `${r},${c}`;
+                    if (el) cellsRef.current.set(key, el);
+                    else cellsRef.current.delete(key);
+                  }}
+                  style={{ color: FOOTER_REGION_COLORS[region] }}
+                >
+                  {ch}
+                </span>
+              );
+            })}
+            {"\n"}
+          </Fragment>
+        ))}
+      </pre>
+    </div>
+  );
+}
+
+// Small reusable styles so the two link groups match exactly.
+const footerLabelClass =
+  "font-[var(--font-geist-mono)] text-xs font-bold uppercase tracking-[0.24em] text-[#8a6a44]";
+const footerLinkClass =
+  "font-[var(--font-geist-mono)] text-[0.78rem] uppercase tracking-[0.14em] text-[#1d1a16] underline decoration-[#cfc6b8] decoration-1 underline-offset-4 transition-[text-decoration-color,text-decoration-thickness] duration-200 hover:decoration-[#1d1a16] hover:decoration-2";
+
+function FooterLinkGroup({
+  label,
+  children,
+  alignRight,
+}: {
+  label: string;
+  children: ReactNode;
+  alignRight?: boolean;
+}) {
+  return (
+    <div className={alignRight ? "md:text-right" : ""}>
+      <p className={footerLabelClass}>{label}</p>
+      <div
+        className={[
+          "mt-3 flex flex-wrap items-center gap-x-3 gap-y-1",
+          alignRight ? "justify-center md:justify-end" : "justify-center md:justify-start",
+        ].join(" ")}
+      >
+        {children}
+      </div>
+    </div>
+  );
+}
+
 function SiteFooter() {
   return (
-    <div className="border-t border-[#ded8cc] py-8 text-sm text-[#756c61]">
-      <div className="grid gap-8 text-center md:grid-cols-[1fr_auto_1fr] md:items-start md:text-left">
+    <div className="text-sm text-[#756c61]">
+      <div className="grid gap-10 text-center md:grid-cols-[1fr_auto] md:items-start md:gap-16 md:text-left">
+        {/* Left: brand block */}
         <div>
           <a
             href="#home"
@@ -289,149 +494,100 @@ function SiteFooter() {
               scrollToSection("home");
             }}
             className={[
-              "text-[#1d1a16]",
+              "text-[#1d1a16] underline decoration-transparent decoration-1 underline-offset-[6px] transition-[text-decoration-color] duration-200 hover:decoration-[#1d1a16]",
               sidebarTextClass,
             ].join(" ")}
           >
             SCOTT CHIANG
           </a>
-          <p className="mt-4 max-w-sm leading-6">
+          <p className="mt-4 max-w-sm text-[0.9rem] leading-6">
             Student, Maker, and Robotics Enthusiast
           </p>
         </div>
 
-        <div className="flex flex-col items-center gap-1">
-            <p className="font-[var(--font-geist-mono)] text-[0.68rem] font-bold uppercase tracking-[0.24em] text-[#8a6a44]">
-              Connect
-            </p>
-            <div className="flex flex-wrap items-center justify-center gap-2">
-              {socialLinks.map(({ label, href, iconSrc, iconClassName }) => {
-                const isEmail = href.startsWith("mailto:");
-
-                return (
+        {/* Right: two grouped link sections stacked, both right-aligned on desktop */}
+        <div className="flex flex-col items-center gap-6 md:items-end md:gap-5">
+          <FooterLinkGroup label="Connect" alignRight>
+            {socialLinks.map(({ label, href }, i) => {
+              const isEmail = href.startsWith("mailto:");
+              return (
+                <Fragment key={label}>
+                  {i > 0 ? (
+                    <span aria-hidden="true" className="text-[#c8bdad]">
+                      ·
+                    </span>
+                  ) : null}
                   <a
-                    key={label}
-                    aria-label={label}
-                    className="group grid h-14 w-14 place-items-center transition duration-300 hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-[#1d1a16]/20"
+                    className={footerLinkClass}
                     href={href}
                     rel={isEmail ? undefined : "noreferrer"}
                     target={isEmail ? undefined : "_blank"}
-                    title={label}
                   >
-                    <img
-                      alt=""
-                      aria-hidden="true"
-                      className={`${iconClassName ?? "h-10 w-10"} object-contain transition-transform duration-300 group-hover:scale-110`}
-                      decoding="async"
-                      loading="lazy"
-                      src={iconSrc}
-                    />
+                    {label}
                   </a>
-                );
-              })}
-            </div>
-        </div>
+                </Fragment>
+              );
+            })}
+          </FooterLinkGroup>
 
-        <div className="text-center md:text-right">
-          <p>&copy; 2026 Scott Chiang.</p>
-          <div className="mt-1 flex flex-col items-center gap-1 md:items-end">
+          <FooterLinkGroup label="Elsewhere" alignRight>
             <a
-              className="inline-block font-semibold text-[#1d1a16] underline decoration-[#cfc6b8] decoration-1 underline-offset-4 transition hover:decoration-[#1d1a16]"
+              className={footerLinkClass}
               href={repoHref}
               rel="noreferrer"
               target="_blank"
             >
-              View repository
+              View Repo
             </a>
-            <a
-              className="inline-block font-semibold text-[#1d1a16] underline decoration-[#cfc6b8] decoration-1 underline-offset-4 transition hover:decoration-[#1d1a16]"
-              href="/resume.pdf"
-              target="_blank"
-            >
-              Resume
-            </a>
-          </div>
+          </FooterLinkGroup>
         </div>
-      </div>
-
-      <div
-        aria-hidden="true"
-        className="mt-8 h-28 overflow-hidden border-t border-[#eee9df] pt-6"
-      >
-        <svg
-          className="h-full w-full text-[#1d1a16]"
-          fill="none"
-          preserveAspectRatio="none"
-          viewBox="0 0 1200 160"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            className="footer-art-line"
-            d="M40 114 C 210 34, 332 138, 496 72 S 790 28, 1160 92"
-            stroke="currentColor"
-            strokeOpacity="0.18"
-            strokeWidth="1.5"
-          />
-          <path
-            className="footer-art-line"
-            d="M80 58 C 260 118, 382 20, 540 96 S 832 126, 1120 42"
-            stroke="#a88961"
-            strokeOpacity="0.32"
-            strokeWidth="1.2"
-          />
-          <path
-            className="footer-art-line"
-            d="M20 132 C 170 86, 280 92, 392 118 S 640 118, 760 78 S 1010 42, 1180 118"
-            stroke="currentColor"
-            strokeOpacity="0.12"
-            strokeWidth="1"
-          />
-          <circle className="footer-art-line" cx="260" cy="56" r="5" stroke="#a88961" strokeOpacity="0.45" />
-          <circle className="footer-art-line" cx="760" cy="80" r="4" fill="currentColor" fillOpacity="0.18" />
-          <circle className="footer-art-line" cx="1010" cy="46" r="6" stroke="currentColor" strokeOpacity="0.22" />
-        </svg>
       </div>
     </div>
   );
 }
 
-function MediaCard({ item }: { item: MediaItem }) {
+function MediaCard({ item, index }: { item: MediaItem; index: number }) {
   const hasImage = Boolean(item.imageSrc);
   const cardStyle = {
-    "--card-rotation": item.rotation ?? "0deg",
+    "--tilt": index % 2 === 0 ? "-1.25deg" : "1.25deg",
   } as CSSProperties;
 
   return (
     <a
-      className="group relative block aspect-[4/3] w-full max-w-72 rotate-[var(--card-rotation)] overflow-hidden rounded-lg border border-[#f3eee7] bg-[#fffdfa] p-0.5 text-left shadow-[0_14px_32px_rgba(29,26,22,0.03)] transition duration-300 ease-out hover:-translate-y-2 hover:rotate-0 hover:border-[#ebe4da] hover:shadow-[0_20px_40px_rgba(29,26,22,0.05)] focus:outline-none"
+      className="group block w-full max-w-[19rem] text-left [transform:translateZ(0)] [will-change:transform] transition duration-200 ease-out hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-[#1d1a16]/20"
       href={item.href}
       rel={item.href.startsWith("#") ? undefined : "noreferrer"}
       style={cardStyle}
       target={item.href.startsWith("#") ? undefined : "_blank"}
       title={item.description}
     >
-      <div className="relative h-full overflow-hidden rounded-md bg-[#fbfaf7] [clip-path:inset(0_round_0.375rem)]">
-        {hasImage ? (
-          <img
-            alt={item.imageAlt ?? item.title}
-            className="block h-full w-full object-cover transition duration-500 group-hover:scale-[1.03]"
-            decoding="async"
-            loading="lazy"
-            src={item.imageSrc}
-          />
-        ) : (
-          <div className="relative h-full w-full">
-            <div className="absolute left-6 top-6 h-5 w-5 rounded-full bg-[#1d1a16]" />
-            <div className="absolute right-8 top-8 h-8 w-8 rounded-full border border-[#a88961]" />
-            <div className="absolute bottom-8 left-8 h-px w-28 rotate-[-10deg] bg-[#cfc6b8]" />
-            <div className="absolute bottom-12 left-16 h-px w-24 rotate-[16deg] bg-[#1d1a16]/35" />
+      <div className="h-full rotate-[var(--tilt)] transition duration-300 ease-out group-hover:rotate-0">
+        <div className="relative isolate aspect-[4/3] overflow-hidden rounded-md bg-[#f8f5ee] shadow-[0_18px_46px_rgba(29,26,22,0.08)] transition duration-300 ease-out [clip-path:inset(0_round_6px)] group-hover:shadow-[0_26px_56px_rgba(29,26,22,0.14)]">
+          {hasImage ? (
+            <img
+              alt={item.imageAlt ?? item.title}
+              className="block h-full w-full object-cover opacity-90 grayscale-[8%] transition duration-300 group-hover:scale-[1.02] group-hover:opacity-100 group-hover:grayscale-0"
+              decoding="async"
+              loading="lazy"
+              src={item.imageSrc}
+            />
+          ) : (
+            <div className="relative h-full w-full bg-[#f7f3eb]">
+              <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(29,26,22,0.055)_1px,transparent_1px),linear-gradient(0deg,rgba(29,26,22,0.055)_1px,transparent_1px)] bg-[size:24px_24px]" />
+              <div className="absolute left-8 top-8 h-6 w-6 rounded-full bg-[#1d1a16]/85" />
+              <div className="absolute right-10 top-9 h-10 w-10 rounded-full border border-[#a88961]" />
+              <div className="absolute bottom-10 left-8 h-px w-32 rotate-[-10deg] bg-[#1d1a16]/25" />
+              <div className="absolute bottom-14 left-16 h-px w-28 rotate-[16deg] bg-[#1d1a16]/15" />
+            </div>
+          )}
+          <div className="absolute inset-x-0 bottom-0 bg-white/86 px-4 py-3.5 backdrop-blur-sm transition-transform duration-300 ease-out group-hover:translate-y-full">
+            <p className="font-[var(--font-geist-mono)] text-[0.78rem] font-semibold uppercase tracking-[0.18em] text-[#8a6a44]">
+              {item.eyebrow}
+            </p>
+            <h2 className="truncate text-[1.3rem] font-medium leading-tight text-[#1d1a16]">
+              {item.title}
+            </h2>
           </div>
-        )}
-        <div className="absolute inset-x-0 bottom-0 bg-white/86 px-4 py-3 backdrop-blur-sm transition-transform duration-300 ease-out group-hover:translate-y-full">
-          <p className="font-[var(--font-geist-mono)] text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-[#8a6a44]">
-            {item.eyebrow}
-          </p>
-          <h2 className="truncate text-base font-semibold text-[#1d1a16]">{item.title}</h2>
         </div>
       </div>
     </a>
@@ -440,25 +596,27 @@ function MediaCard({ item }: { item: MediaItem }) {
 
 function ProjectCard({
   project,
+  index,
 }: {
   project: ProjectItem;
+  index: number;
 }) {
   const isPlaceholder = project.href === "#";
   const hasImage = Boolean(project.imageSrc);
 
   return (
     <a
-      className="group block text-left transition duration-200 ease-out hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-[#1d1a16]/20"
+      className="group block text-left [transform:translateZ(0)] [will-change:transform] transition duration-200 ease-out hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-[#1d1a16]/20"
       href={project.href}
       rel={isPlaceholder ? undefined : "noreferrer"}
       target={isPlaceholder ? undefined : "_blank"}
     >
       <div className="h-full rounded-lg border border-[#eee8de] bg-[#fffdfa] p-1.5 shadow-[0_14px_38px_rgba(29,26,22,0.035)] transition duration-300 group-hover:border-[#ded8cc] group-hover:shadow-[0_20px_46px_rgba(29,26,22,0.06)]">
-        <div className="relative aspect-video overflow-hidden rounded-md bg-[#f8f5ee] shadow-[0_12px_34px_rgba(29,26,22,0.035)]">
+        <div className="relative isolate aspect-video overflow-hidden rounded-md bg-[#f8f5ee] shadow-[0_12px_34px_rgba(29,26,22,0.035)] [clip-path:inset(0_round_6px)]">
           {hasImage ? (
             <img
               alt={project.imageAlt ?? project.title}
-              className="h-full w-full object-cover grayscale-[8%] transition duration-300 group-hover:scale-[1.01] group-hover:grayscale-0"
+              className="block h-full w-full object-cover grayscale-[8%] transition duration-300 group-hover:scale-[1.01] group-hover:grayscale-0"
               decoding="async"
               loading="lazy"
               src={project.imageSrc}
@@ -479,7 +637,7 @@ function ProjectCard({
           )}
         </div>
 
-        <div className="pt-2.5">
+        <div className="px-2 pt-2.5 pb-2.5">
           <div className="flex items-start justify-between gap-3">
             <h2 className="text-[1rem] font-medium leading-tight text-[#1d1a16]">
               {project.title}
@@ -488,9 +646,6 @@ function ProjectCard({
               {project.status}
             </p>
           </div>
-          <p className="mt-2 min-h-[4.25rem] text-[0.76rem] leading-[1.25rem] text-[#625a50]">
-            {project.description}
-          </p>
         </div>
       </div>
     </a>
@@ -499,29 +654,33 @@ function ProjectCard({
 
 function TechStackStrip() {
   return (
-    <div className="mt-8 max-w-5xl rounded-lg border border-[#eee8de] bg-[#fffdfa] p-4 shadow-[0_14px_38px_rgba(29,26,22,0.025)]">
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-start">
-        <p className="w-28 shrink-0 font-[var(--font-geist-mono)] text-[0.68rem] font-bold uppercase tracking-[0.18em] text-[#8a6a44]">
-          Tech stack
+    <div className="mt-8 max-w-5xl rounded-lg border border-[#eee8de] bg-[#fffdfa] p-4 shadow-[0_14px_38px_rgba(29,26,22,0.025)] sm:p-5">
+      <div className="grid gap-3">
+        <p className="font-[var(--font-geist-mono)] text-[0.68rem] font-bold uppercase tracking-[0.18em] text-[#8a6a44]">
+          <b>Tech stack</b>
         </p>
         <div className="flex flex-wrap gap-2">
           {techStackItems.map((tool) => (
             <span
               className="inline-flex items-center gap-1.5 rounded-full bg-[#f7f3eb] px-3 py-1 font-[var(--font-geist-mono)] text-[0.62rem] font-semibold uppercase tracking-[0.1em] text-[#625a50]"
               key={tool.label}
+              title={tool.label}
             >
-              <img
-                alt=""
-                aria-hidden="true"
-                className="h-3.5 w-3.5 object-contain"
-                decoding="async"
-                loading="lazy"
-                src={tool.icon}
+                  <img
+                    alt=""
+                    aria-hidden="true"
+                    className="h-3.5 max-w-8 object-contain"
+                    decoding="async"
+                    loading="lazy"
+                    src={tool.icon}
               />
               {tool.label}
             </span>
           ))}
         </div>
+        <p className="max-w-2xl text-sm leading-6 text-[#756c61]">
+          
+        </p>
       </div>
     </div>
   );
@@ -537,13 +696,15 @@ function ContentSection({
   };
 
   if (section.id === "socials") {
+    // -mx-* on the ASCII art escapes the ScrollPortfolio's horizontal padding
+    // so the art paints edge-to-edge across the whole content area (past the
+    // sidebar), letting each character render as large as possible.
     return (
       <footer id={section.id} className="scroll-mt-8 py-10 sm:py-14">
-        <div
-          className="mx-auto w-full max-w-6xl text-center md:text-left"
-        >
+        <div className="mx-auto w-full max-w-6xl text-center md:text-left">
           <SiteFooter />
         </div>
+        <FooterAsciiArt className="mt-12 pb-10" />
       </footer>
     );
   }
@@ -553,7 +714,7 @@ function ContentSection({
       id={section.id}
       className={[
         "relative grid min-h-screen scroll-mt-8 py-24",
-        section.id === "home" ? "place-items-start pb-36 sm:py-32 sm:pb-44" : "place-items-center",
+        section.id === "home" ? "place-items-start sm:py-32" : "place-items-center",
       ].join(" ")}
     >
       <div
@@ -566,7 +727,7 @@ function ContentSection({
         <p
           className="mb-5 font-[var(--font-geist-mono)] text-sm font-semibold uppercase tracking-[0.24em] text-[#8a6a44]"
         >
-          {String(index + 1).padStart(2, "0")} / {section.label}
+          [{String(index + 1).padStart(2, "0")}] {section.label}
         </p>
         <h1
           className="text-5xl font-bold tracking-normal sm:text-7xl"
@@ -583,20 +744,21 @@ function ContentSection({
         </div>
         {section.id === "home" ? (
           <div
-            className="mx-auto mt-10 grid w-full max-w-xs grid-cols-1 gap-4 overflow-visible px-2 py-4 sm:hidden"
+            className="mx-auto mt-10 grid w-full max-w-xs grid-cols-1 justify-items-center gap-4 overflow-visible px-2 py-4 sm:max-w-5xl sm:grid-cols-3 sm:gap-6 sm:px-0"
           >
-            {mediaItems.map((item) => (
-              <MediaCard item={item} key={item.title} />
+            {mediaItems.map((item, mediaIndex) => (
+              <MediaCard item={item} index={mediaIndex} key={item.title} />
             ))}
           </div>
         ) : null}
         {section.id === "projects" ? (
           <div className="mt-10 md:pl-6 lg:pl-8">
             <div className="mx-auto grid w-full max-w-5xl grid-cols-1 gap-x-5 gap-y-9 sm:grid-cols-2 lg:grid-cols-3 md:mx-0">
-              {projectItems.map((project) => (
+              {projectItems.map((project, projectIndex) => (
                 <ProjectCard
-                  key={project.title}
+                  key={project.id}
                   project={project}
+                  index={projectIndex}
                 />
               ))}
             </div>
@@ -604,15 +766,6 @@ function ContentSection({
           </div>
         ) : null}
       </div>
-      {section.id === "home" ? (
-        <div
-          className="absolute bottom-12 left-1/2 hidden w-full max-w-5xl -translate-x-1/2 grid-cols-3 gap-7 overflow-visible px-8 py-10 sm:grid lg:px-12"
-        >
-          {mediaItems.map((item) => (
-            <MediaCard item={item} key={item.title} />
-          ))}
-        </div>
-      ) : null}
     </section>
   );
 }

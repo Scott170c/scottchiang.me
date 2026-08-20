@@ -5,4 +5,10 @@ dist
 .vercel
 *.log
 .env*
+!.env.example
 tsconfig.tsbuildinfo
+
+# Claude Code session artifacts -- keep launch.json so future sessions can reuse
+# the dev-server config, ignore everything else in .claude/.
+.claude/*
+!.claude/launch.json
