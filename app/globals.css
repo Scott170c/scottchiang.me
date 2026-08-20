@@ -1,5 +1,8 @@
 @import "tailwindcss";
 
+/* Global reset intentionally does NOT set `a { text-decoration: none }` --
+   that would fight Tailwind's `underline` utility and force !important on every link. */
+
 :root {
   color-scheme: light;
   --background: #fff5e8;
@@ -10,17 +13,39 @@
   box-sizing: border-box;
 }
 
+html {
+  /* Smoothly interpolate anchor jumps (Sidebar nav uses scrollIntoView which already
+     smooth-scrolls, but this covers native anchor links and gives one consistent motion.) */
+  scroll-behavior: smooth;
+  /* Prevent OS-level bounce/overscroll and pull-to-refresh, which usually just interrupts flow. */
+  overscroll-behavior-y: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
 body {
   margin: 0;
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
   font-feature-settings: "kern" 1, "calt" 1;
-  text-rendering: geometricPrecision;
+  /* geometricPrecision looks nice but hurts subpixel positioning during scroll on some
+     browsers -- optimizeLegibility keeps ligatures/kerning without the perf hit. */
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-a {
-  text-decoration: none;
+/* Hint the compositor to promote transform-driven elements to their own GPU layer
+   so hover scales, sidebar ticker, and ASCII scale-fit don't cause repaints during scroll. */
+.gpu-layer {
+  transform: translate3d(0, 0, 0);
+  will-change: transform;
+  backface-visibility: hidden;
 }
 
 @media (min-width: 768px) {

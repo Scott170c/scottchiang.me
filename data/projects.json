@@ -1,0 +1,93 @@
+[
+  {
+    "id": "mini-quadruped",
+    "title": "Mini Quadruped",
+    "description": "Short placeholder copy for a featured robotics build. Swap this in for a concise summary of the design goals, the hardware, and what the robot can do.",
+    "href": "#",
+    "tags": [
+      "Robotics",
+      "Controls",
+      "Hardware"
+    ],
+    "status": "project",
+    "accent": "#70756d"
+  },
+  {
+    "id": "robotics-driver-board",
+    "title": "Robotics Driver Board",
+    "description": "Short placeholder copy for a custom electronics build. Use this space to describe the board, the motors it drives, and the problem it solves.",
+    "href": "#",
+    "tags": [
+      "PCB Design",
+      "Electronics",
+      "Embedded"
+    ],
+    "status": "project",
+    "accent": "#4a5a63"
+  },
+  {
+    "id": "scottchiang-me",
+    "title": "scottchiang.me",
+    "description": "Short placeholder copy for this site itself. Add a note on the stack, the design approach, and anything interesting about how it was built.",
+    "href": "https://scottchiang.me",
+    "tags": [
+      "Next.js",
+      "Tailwind",
+      "Animation"
+    ],
+    "status": "project",
+    "accent": "#26231f"
+  },
+  {
+    "id": "physio",
+    "title": "Physio",
+    "description": "Short placeholder copy for a hackathon build. Add context, tools, and a result once the final project details are ready.",
+    "href": "#",
+    "tags": [
+      "Hackathon",
+      "Hardware",
+      "Rapid Prototyping"
+    ],
+    "status": "lahacks",
+    "accent": "#26231f"
+  },
+  {
+    "id": "scrapyard",
+    "title": "Scrapyard",
+    "description": "Short placeholder copy for a hackathon build. Describe the challenge, the team, and what shipped by the end of the event.",
+    "href": "#",
+    "tags": [
+      "Hackathon",
+      "Hardware",
+      "Team Build"
+    ],
+    "status": "Hackathon",
+    "accent": "#587274"
+  },
+  {
+    "id": "astrohacks",
+    "title": "Astrohacks",
+    "description": "Short placeholder copy for a hackathon build. Describe the challenge, the team, and what shipped by the end of the event.",
+    "href": "#",
+    "tags": [
+      "Hackathon",
+      "Space Tech",
+      "Software"
+    ],
+    "status": "Hackathon",
+    "accent": "#8a6a44"
+  },
+  {
+    "id": "hacky-holidays",
+    "title": "Hacky Holidays",
+    "description": "Short placeholder copy for a grant-funded build. Add a note on what the grant supported and what came out of it.",
+    "href": "#",
+    "tags": [
+      "Grant",
+      "Hack Club",
+      "Build"
+    ],
+    "status": "Grant Program",
+    "accent": "#26231f"
+  }
+]
