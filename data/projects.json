@@ -23,7 +23,9 @@
       "Embedded"
     ],
     "status": "project",
-    "accent": "#4a5a63"
+    "accent": "#4a5a63",
+    "imageSrc": "https://media.discordapp.net/attachments/785971338115416105/1545356384063725599/image.png?ex=6a9bd8c9&is=6a9a8749&hm=af8bfdb843782c14c338c73ce561a0fc0fdbde4a320aa2991309357aa178cd93&=&format=webp&quality=lossless",
+    "imageAlt": "QuadruDriver PCB"
   },
   {
     "id": "scottchiang-me",
@@ -66,7 +68,9 @@
       "Team Build"
     ],
     "status": "Hackathon",
-    "accent": "#587274"
+    "accent": "#587274",
+    "imageSrc": "https://media.discordapp.net/attachments/785971338115416105/1545356582424936518/image.png?ex=6a9bd8f8&is=6a9a8778&hm=450e5894e96093c1e46406099439dea7c72f845306754ba1249fa633fa5a7496&=&format=webp&quality=lossless&width=1024&height=529",
+    "imageAlt": "Scrapyard Website"
   },
   {
     "id": "astrohacks",
@@ -92,6 +96,8 @@
       "Build"
     ],
     "status": "Grant Program",
-    "accent": "#26231f"
+    "accent": "#26231f",
+    "imageSrc": "https://media.discordapp.net/attachments/785971338115416105/1545356856581423175/image.png?ex=6a9bd939&is=6a9a87b9&hm=1a9c5028889b4b7cf8cb6714b5fa377427c5b5572f7a380f405951cb643e6537&=&format=webp&quality=lossless",
+    "imageAlt": "Hacky Holidays Website"
   }
 ]
