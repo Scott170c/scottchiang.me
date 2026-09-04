@@ -3,7 +3,7 @@
     "id": "mini-quadruped",
     "title": "Mini Quadruped",
     "description": "Short placeholder copy for a featured robotics build. Swap this in for a concise summary of the design goals, the hardware, and what the robot can do.",
-    "href": "#",
+    "href": "https://github.com/Scott170c/Quadrumini",
     "tags": [
       "Robotics",
       "Controls",
@@ -16,7 +16,7 @@
     "id": "robotics-driver-board",
     "title": "Robotics Driver Board",
     "description": "Short placeholder copy for a custom electronics build. Use this space to describe the board, the motors it drives, and the problem it solves.",
-    "href": "#",
+    "href": "https://github.com/Scott170c/Quadrumini",
     "tags": [
       "PCB Design",
       "Electronics",
@@ -36,26 +36,30 @@
       "Animation"
     ],
     "status": "project",
-    "accent": "#26231f"
+    "accent": "#26231f",
+    "imageSrc": "https://media.discordapp.net/attachments/785971338115416105/1539826512268623943/image.png?ex=6a9b8131&is=6a9a2fb1&hm=9052e66e9e5f8b798f10f7fa682af558af206747f4b24d1c0b8698517da4373f&=&format=webp&quality=lossless",
+    "imageAlt": "scottchiang.me"
   },
   {
     "id": "physio",
     "title": "Physio",
     "description": "Short placeholder copy for a hackathon build. Add context, tools, and a result once the final project details are ready.",
-    "href": "#",
+    "href": "https://devpost.com/software/strokr-ai",
     "tags": [
       "Hackathon",
       "Hardware",
       "Rapid Prototyping"
     ],
     "status": "lahacks",
-    "accent": "#26231f"
+    "accent": "#26231f",
+    "imageSrc": "https://d112y698adiu2z.cloudfront.net/photos/production/software_photos/004/612/455/datas/gallery.jpg",
+    "imageAlt": "Physio Device"
   },
   {
     "id": "scrapyard",
     "title": "Scrapyard",
     "description": "Short placeholder copy for a hackathon build. Describe the challenge, the team, and what shipped by the end of the event.",
-    "href": "#",
+    "href": "scrapyard.hackclub.com",
     "tags": [
       "Hackathon",
       "Hardware",
@@ -68,7 +72,7 @@
     "id": "astrohacks",
     "title": "Astrohacks",
     "description": "Short placeholder copy for a hackathon build. Describe the challenge, the team, and what shipped by the end of the event.",
-    "href": "#",
+    "href": "astrohacks.org",
     "tags": [
       "Hackathon",
       "Space Tech",
@@ -81,7 +85,7 @@
     "id": "hacky-holidays",
     "title": "Hacky Holidays",
     "description": "Short placeholder copy for a grant-funded build. Add a note on what the grant supported and what came out of it.",
-    "href": "#",
+    "href": "hackyholidays.hackclub.com",
     "tags": [
       "Grant",
       "Hack Club",
