@@ -45,21 +45,6 @@
     "imageAlt": "scottchiang.me"
   },
   {
-    "id": "physio",
-    "title": "Physio",
-    "description": "Short placeholder copy for a hackathon build. Add context, tools, and a result once the final project details are ready.",
-    "href": "https://devpost.com/software/strokr-ai",
-    "tags": [
-      "Hackathon",
-      "Hardware",
-      "Rapid Prototyping"
-    ],
-    "status": "lahacks",
-    "accent": "#26231f",
-    "imageSrc": "https://d112y698adiu2z.cloudfront.net/photos/production/software_photos/004/612/455/datas/gallery.jpg",
-    "imageAlt": "Physio Device"
-  },
-  {
     "id": "scrapyard",
     "title": "Scrapyard",
     "description": "Short placeholder copy for a hackathon build. Describe the challenge, the team, and what shipped by the end of the event.",
@@ -75,17 +60,19 @@
     "imageAlt": "Scrapyard Website"
   },
   {
-    "id": "astrohacks",
-    "title": "Astrohacks",
-    "description": "Short placeholder copy for a hackathon build. Describe the challenge, the team, and what shipped by the end of the event.",
-    "href": "astrohacks.org",
+    "id": "physio",
+    "title": "Physio",
+    "description": "Short placeholder copy for a hackathon build. Add context, tools, and a result once the final project details are ready.",
+    "href": "https://devpost.com/software/strokr-ai",
     "tags": [
       "Hackathon",
-      "Space Tech",
-      "Software"
+      "Hardware",
+      "Rapid Prototyping"
     ],
-    "status": "Hackathon",
-    "accent": "#8a6a44"
+    "status": "lahacks",
+    "accent": "#26231f",
+    "imageSrc": "https://d112y698adiu2z.cloudfront.net/photos/production/software_photos/004/612/455/datas/gallery.jpg",
+    "imageAlt": "Physio Device"
   },
   {
     "id": "hacky-holidays",
@@ -101,5 +88,19 @@
     "accent": "#26231f",
     "imageSrc": "https://media.discordapp.net/attachments/785971338115416105/1545356856581423175/image.png?ex=6a9bd939&is=6a9a87b9&hm=1a9c5028889b4b7cf8cb6714b5fa377427c5b5572f7a380f405951cb643e6537&=&format=webp&quality=lossless",
     "imageAlt": "Hacky Holidays Website"
+  },
+  {
+    "id": "astrohacks",
+    "title": "Astrohacks",
+    "description": "Short placeholder copy for a hackathon build. Describe the challenge, the team, and what shipped by the end of the event.",
+    "href": "astrohacks.org",
+    "tags": [
+      "Hackathon",
+      "Space Tech",
+      "Software"
+    ],
+    "status": "Hackathon",
+    "accent": "#8a6a44",
+    "imageSrc": "https://media.discordapp.net/attachments/785971338115416105/1545617127057129502/AP1GczNQ04p9L2-fLLHgXTrtPjMP95BXusgFT0AfYuo22U5docw3_JSsH1NFw2620-h1474-s-no-gm.png?ex=6a9ccb9f&is=6a9b7a1f&hm=5b72f0f6fec3e3143c2dcbe9afc110f1237ff469c41e87fc757ddba62a0eeb7b&=&format=webp&quality=lossless&width=1024&height=575"
   }
 ]
