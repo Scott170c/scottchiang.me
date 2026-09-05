@@ -10,7 +10,9 @@
       "Hardware"
     ],
     "status": "project",
-    "accent": "#70756d"
+    "accent": "#70756d",
+    "imageSrc": "https://media.discordapp.net/attachments/785971338115416105/1545615676990033980/20260411_172318.jpg?ex=6a9cca45&is=6a9b78c5&hm=a08429a4cdcd1b9be479a146d8f5827f4202807cee86c77d535e97a5ac2e178f&=&format=webp&width=2048&height=1535",
+    "imageAlt": "Quadrumini Standing"
   },
   {
     "id": "robotics-driver-board",
